@@ -1,0 +1,57 @@
+#include "memberNode.h"
+
+// Constructor
+memberNode::memberNode(int id, string name, string policy, int year, double premium)
+    : id(id), name(name), policy(policy), year(year), premium(premium), next(nullptr) {}
+
+// Destructor
+memberNode::~memberNode() {}
+
+// Getter and setter functions
+int memberNode::getId() const {
+    return id;
+}
+
+void memberNode::setId(int id) {
+    this->id = id;
+}
+
+string memberNode::getName() const {
+    return name;
+}
+
+void memberNode::setName(string name) {
+    this->name = name;
+}
+
+string memberNode::getPolicy() const {
+    return policy;
+}
+
+void memberNode::setPolicy(string policy) {
+    this->policy = policy;
+}
+
+int memberNode::getYear() const {
+    return year;
+}
+
+void memberNode::setYear(int year) {
+    this->year = year;
+}
+
+double memberNode::getPremium() const {
+    return premium;
+}
+
+void memberNode::setPremium(double premium) {
+    this->premium = premium;
+}
+
+memberNode* memberNode::getNext() const {
+    return next;
+}
+
+void memberNode::setNext(memberNode* next) {
+    this->next = next;
+}

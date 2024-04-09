@@ -1,0 +1,49 @@
+//============================================================================================================//
+// Name                   : Byung Rog Lee
+// Due Date               : April 7th 2024
+// Program Number         : CS2020 Program 4
+// Purpose of the Program : The program is designed to help Falcon Insurance Company handle its member 
+//                          records effectively using a linked list approach. It consists of several 
+//                          components: memberNode.h and memberNode.cpp defining member attributes and access '
+//                          methods, memberList.h and memberList.cpp managing member operations, and 
+//                          memberClient.cpp as the main code interacting with these classes. The program 
+//                          allows adding/removing members, displaying all members, and creating reports based 
+//                          on policy type, membership duration, and premium amounts. This assists in the 
+//                          company's efficient management of its members.
+//============================================================================================================//
+#ifndef MEMBERLIST_H
+#define MEMBERLIST_H
+
+#include "memberNode.h"
+
+class memberList {
+private:
+    memberNode* head;
+    memberNode* tail;
+
+public:
+    // Constructor
+    memberList();
+
+    // Destructor
+    ~memberList();
+
+    // Copy Constructor
+    memberList(const memberList& other);
+
+    // Copy Assignment Operator
+    memberList& operator=(const memberList& other);
+
+    // Functions
+    void PushBack(memberNode* newNode);
+    void AddOneMember(memberNode* currNode);
+    void RemoveOneMember(int id);
+    void PrintMemberList() const;
+    void PrintPolicy(string policy) const;
+    void PrintYear(int year) const;
+    void PrintLowPremium() const;
+};
+
+#endif // MEMBERLIST_H
+
+

@@ -1,0 +1,140 @@
+// Program #2 – shares.cpp
+// Programmer         :  Byung Rog Lee
+// Class              :  CS 2020, Spring 2024
+// Due Date           : February 16th, 2024
+// Purpose of program : The purpose of the C++ program is to manage a list of shareholders and their shares, 
+//                      including reading data from a file, displaying shareholder information in a tabular 
+//                      format, finding shareholders by category with their average shares, and displaying a 
+//                      breakdown of assets by share category along with the total assets.
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <string>
+#include <vector>
+using namespace std;
+
+// Shareholder Struct
+struct Shareholder {
+    string name;
+    string category;
+    int shares;
+};
+
+// Function Prototypes
+void fillVector(vector<Shareholder>& ClientList);
+void printVector(const vector<Shareholder>& ClientList);
+void findCategory(const vector<Shareholder>& ClientList);
+void breakdown(const vector<Shareholder>& ClientList);
+
+int main() {
+    vector<Shareholder> ClientList;
+    fillVector(ClientList);
+    printVector(ClientList);
+    findCategory(ClientList);
+    breakdown(ClientList);
+
+    return 0;
+}
+
+void fillVector(vector<Shareholder>& ClientList) {
+    ifstream infile;
+    infile.open("shares.txt");
+    if (!infile.is_open()) {
+        cout << "Could not open file shares.txt" << endl;
+        exit(1);
+    }
+
+    Shareholder tempVal;
+
+    while (!infile.eof()) {
+        getline(infile, tempVal.name);
+        getline(infile, tempVal.category);
+        infile >> tempVal.shares;
+        infile.ignore();
+        ClientList.push_back(tempVal);
+    }
+    infile.close();
+}
+
+void printVector(const vector<Shareholder>& ClientList) {
+    cout << "================================" << endl;
+    cout << left
+        << setw(5) << "#"
+        << setw(20) << "Name"
+        << setw(20) << "Category"
+        << setw(20) << "Shares"
+        << endl;
+    cout << left
+        << setw(5) << "-"
+        << setw(20) << "-----"
+        << setw(20) << "--------"
+        << setw(20) << "------------"
+        << endl;
+
+    for (size_t i = 0; i < ClientList.size(); ++i) {
+        cout << setw(5) << i + 1
+            << setw(20) << ClientList[i].name
+            << setw(20) << ClientList[i].category
+            << setw(20) << ClientList[i].shares
+            << endl;
+    }
+    cout << endl;
+}
+
+void findCategory(const vector<Shareholder>& ClientList) {
+    string typeCategory;
+    cout << "===================== FindCat =====================" << endl;
+    cout << endl;
+    cout << endl;
+    cout << "Enter the category <Gold, Silver or Bronze>: ";
+    cin >> typeCategory;
+    cout << endl;
+    cout << endl;
+    cout << "-----------------------" << endl;
+    cout << "The " << typeCategory << " clients." << endl;
+    cout << "-----------------------" << endl;
+    int totalShares = 0;
+    int countClients = 0;
+    for (size_t i = 0; i < ClientList.size(); ++i) {
+        if (ClientList[i].category == typeCategory) {
+            cout << left << setw(25) << ClientList[i].name << ClientList[i].shares << endl;
+            totalShares += ClientList[i].shares;
+            ++countClients;
+        }
+    }
+    if (countClients != 0) {
+        cout << "_____________________________________________________________" << endl;
+        cout << "The average " << typeCategory << " shares: " << totalShares / countClients << endl;
+        cout << "_____________________________________________________________" << endl;
+    }
+    else {
+        cout << "No clients found in the category " << typeCategory << endl;
+    }
+}
+
+void breakdown(const vector<Shareholder>& ClientList) {
+    double goldVal = 8.95;
+    double silverVal = 4.95;
+    double bronzeVal = 1.95;
+    double totalGold = 0;
+    double totalSilver = 0;
+    double totalBronze = 0;
+    cout << "==================== FindAssets ====================" << endl;
+    cout << "****************************************************" << endl;
+    for (size_t i = 0; i < ClientList.size(); ++i) {
+        if (ClientList[i].category == "Gold") {
+            totalGold += ClientList[i].shares * goldVal;
+        }
+        else if (ClientList[i].category == "Silver") {
+            totalSilver += ClientList[i].shares * silverVal;
+        }
+        else if (ClientList[i].category == "Bronze") {
+            totalBronze += ClientList[i].shares * bronzeVal;
+        }
+    }
+    cout << "The value of the Gold Shareholders is   $ " << fixed << setprecision(2) << totalGold << endl;
+    cout << "The value of the Silver Shareholders is $ " << fixed << setprecision(2) << totalSilver << endl;
+    cout << "The value of the Bronze Shareholders is $ " << fixed << setprecision(2) << totalBronze << endl;
+    cout << "The Total value of the shareholders is  $ " << fixed << setprecision(2) << totalGold + totalSilver + totalBronze << endl;
+}

@@ -1,0 +1,75 @@
+#include "memberNode.h"
+#include "memberList.h"
+#include "memberNode.h"
+#include "memberList.h"
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+memberNode* CreatecurrNode(ifstream& infile); // Function prototype
+
+int main() {
+    ifstream infile("memberData.txt");
+
+    memberList MyListOfmembers;
+    int yrs;
+    int choice, Delid;
+    string policy;
+    memberNode* currNode;
+
+    cout << "The list is empty." << endl;
+
+    infile >> choice;
+
+    while (choice != 7) {
+        if (choice == 1) {
+            currNode = CreatecurrNode(infile);
+            MyListOfmembers.AddOneMember(currNode);
+        }
+        else if (choice == 2) {
+            infile >> Delid;
+            MyListOfmembers.RemoveOneMember(Delid);
+        }
+        else if (choice == 3) {
+            MyListOfmembers.PrintMemberList();
+        }
+        else if (choice == 4) {
+            infile.ignore();
+            getline(infile, policy);
+            MyListOfmembers.PrintPolicy(policy);
+        }
+        else if (choice == 5) {
+            infile >> yrs;
+            MyListOfmembers.PrintYear(yrs);
+        }
+        else if (choice == 6) {
+            MyListOfmembers.PrintLowPremium();
+        }
+        infile >> choice;
+    }
+
+    return 0;
+}
+
+memberNode* CreatecurrNode(ifstream& infile) {
+    memberNode* currNode;
+    string name;
+    int id;
+    string policy;
+    int year;
+    double premium;
+
+    infile >> id;
+    infile.ignore();
+    getline(infile, name);
+    getline(infile, policy);
+    infile >> year;
+    infile >> premium;
+
+    currNode = new memberNode(id, name, policy, year, premium);
+
+    return currNode;
+}
